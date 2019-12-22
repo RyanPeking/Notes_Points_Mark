@@ -39,7 +39,7 @@ flags.DEFINE_string(
 
 flags.DEFINE_string(
     # "bert_config_file", None,
-    "bert_config_file", './chinese_L-12_H-768_A-12/bert_config.json',
+    "bert_config_file", '../chinese_L-12_H-768_A-12/bert_config.json',
     "The config json file corresponding to the pre-trained BERT model. "
     "This specifies the model architecture.")
 
@@ -48,7 +48,7 @@ flags.DEFINE_string("task_name", 'mytest', "The name of the task to train.")
 
 # flags.DEFINE_string("vocab_file", None,
 #                     "The vocabulary file that the BERT model was trained on.")
-flags.DEFINE_string("vocab_file", './chinese_L-12_H-768_A-12/vocab.txt',
+flags.DEFINE_string("vocab_file", '../chinese_L-12_H-768_A-12/vocab.txt',
                     "The vocabulary file that the BERT model was trained on.")
 
 # flags.DEFINE_string(
@@ -64,7 +64,7 @@ flags.DEFINE_string(
 #     "init_checkpoint", None,
 #     "Initial checkpoint (usually from a pre-trained BERT model).")
 flags.DEFINE_string(
-    "init_checkpoint", './chinese_L-12_H-768_A-12/bert_model.ckpt',
+    "init_checkpoint", '../chinese_L-12_H-768_A-12/bert_model.ckpt',
     "Initial checkpoint (usually from a pre-trained BERT model).")
 
 flags.DEFINE_bool(
@@ -509,7 +509,7 @@ def convert_single_example(ex_index, example, label_list, max_seq_length,
   assert len(input_ids) == max_seq_length
   assert len(input_mask) == max_seq_length
   assert len(segment_ids) == max_seq_length
-
+  print(example.label)
   label_id = label_map[example.label]
   if ex_index < 5:
     tf.logging.info("*** Example ***")

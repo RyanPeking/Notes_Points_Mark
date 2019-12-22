@@ -39,7 +39,7 @@ flags.DEFINE_string(
 
 flags.DEFINE_string(
     # "bert_config_file", None,
-    "bert_config_file", './chinese_L-12_H-768_A-12/bert_config.json',
+    "bert_config_file", '../chinese_L-12_H-768_A-12/bert_config.json',
     "The config json file corresponding to the pre-trained BERT model. "
     "This specifies the model architecture.")
 
@@ -48,7 +48,7 @@ flags.DEFINE_string("task_name", 'mytest', "The name of the task to train.")
 
 # flags.DEFINE_string("vocab_file", None,
 #                     "The vocabulary file that the BERT model was trained on.")
-flags.DEFINE_string("vocab_file", './chinese_L-12_H-768_A-12/vocab.txt',
+flags.DEFINE_string("vocab_file", '../chinese_L-12_H-768_A-12/vocab.txt',
                     "The vocabulary file that the BERT model was trained on.")
 
 # flags.DEFINE_string(
@@ -64,7 +64,7 @@ flags.DEFINE_string(
 #     "init_checkpoint", None,
 #     "Initial checkpoint (usually from a pre-trained BERT model).")
 flags.DEFINE_string(
-    "init_checkpoint", './chinese_L-12_H-768_A-12/bert_model.ckpt',
+    "init_checkpoint", '../chinese_L-12_H-768_A-12/bert_model.ckpt',
     "Initial checkpoint (usually from a pre-trained BERT model).")
 
 flags.DEFINE_bool(
@@ -393,7 +393,7 @@ class MyProcessor(DataProcessor):
   def get_train_examples(self, data_dir):
     """See base class."""
     return self._create_examples(
-        self._read_tsv(os.path.join(data_dir, "train.tsv")), "train")
+        self._read_tsv(os.path.join(data_dir, "baidu_95.csv")), "train")
 
   def get_dev_examples(self, data_dir):
     """See base class."""
@@ -407,117 +407,43 @@ class MyProcessor(DataProcessor):
 
   def get_labels(self):
     """See base class."""
-    return ['高中',
-            '生物',
-            '地理',
-            '历史',
-            '政治',
-            '“重农抑商”政策',
-             '不完全显性',
-             '与细胞分裂有关的细胞器',
-             '中央官制——三公九卿制',
-             '中心体的结构和功能',
-             '人体免疫系统在维持稳态中的作用',
-             '人体水盐平衡调节',
-             '人体的体温调节',
-             '人口与城市',
-             '人口增长与人口问题',
-             '人口迁移与人口流动',
-             '人工授精、试管婴儿等生殖技术',
-             '伴性遗传',
-             '体液免疫的概念和过程',
-             '免疫系统的功能',
-             '免疫系统的组成',
-             '公民道德与伦理常识',
-             '兴奋在神经元之间的传递',
-             '兴奋在神经纤维上的传导',
-             '内环境的稳态',
-             '内质网的结构和功能',
-             '农业区位因素',
-             '减数分裂与有丝分裂的比较',
-             '减数分裂的概念',
-             '分子与细胞',
-             '劳动就业与守法经营',
-             '古代史',
-             '器官移植',
-             '地球与地图',
-             '地球所处的宇宙环境',
-             '地球的内部圈层结构及特点',
-             '地球的外部圈层结构及特点',
-             '地球运动的地理意义',
-             '地球运动的基本形式',
-             '垄断组织的出现',
-             '培养基与无菌技术',
-             '基因工程的原理及技术',
-             '基因工程的概念',
-             '基因的分离规律的实质及应用',
-             '基因的自由组合规律的实质及应用',
-             '复等位基因',
-             '夏商两代的政治制度',
-             '太阳对地球的影响',
-             '宇宙中的地球',
-             '工业区位因素',
-             '拉马克的进化学说',
-             '文艺的春天',
-             '核糖体的结构和功能',
-             '海峡两岸关系的发展',
-             '液泡的结构和功能',
-             '清末民主革命风潮',
-             '溶酶体的结构和功能',
-             '激素调节',
-             '现代史',
-             '现代生物技术专题',
-             '生产活动与地域联系',
-             '生命活动离不开细胞',
-             '生态系统的营养结构',
-             '生活中的法律常识',
-             '生物工程技术',
-             '生物性污染',
-             '生物技术在其他方面的应用',
-             '生物技术实践',
-             '生物科学与社会',
-             '皇帝制度',
-             '社会主义市场经济的伦理要求',
-             '社会主义是中国人民的历史性选择',
-             '神经调节和体液调节的比较',
-             '科学社会主义常识',
-             '稳态与环境',
-             '第三产业的兴起和“新经济”的出现',
-             '组成细胞的化合物',
-             '组成细胞的化学元素',
-             '细胞大小与物质运输的关系',
-             '细胞有丝分裂不同时期的特点',
-             '细胞的多样性和统一性',
-             '经济学常识',
-             '群落的结构',
-             '胚胎移植',
-             '蛋白质的合成',
-             '血糖平衡的调节',
-             '走进细胞',
-             '近代史',
-             '选官、用官制度的变化',
-             '遗传与进化',
-             '遗传的分子基础',
-             '遗传的细胞基础',
-             '避孕的原理和方法',
-             '郡县制',
-             '高尔基体的结构和功能'
-            ]
+    return ['高中', '生物', '历史', '地理', '政治', '生物技术实践', '公民道德与伦理常识', '经济学常识',
+            '生活中的法律常识', '现代生物技术专题', '科学社会主义常识',
+            '地球与地图', '近代史', '遗传与进化', '生物科学与社会', '分子与细胞', '人口与城市',
+            '宇宙中的地球', '生产活动与地域联系', '古代史', '现代史', '稳态与环境',
+            '生物性污染', '细胞有丝分裂不同时期的特点', '液泡的结构和功能', '组成细胞的化学元素',
+            '兴奋在神经纤维上的传导', '不完全显性', '免疫系统的组成', '生物技术在其他方面的应用', '群落的结构',
+            '中央官制——三公九卿制', '核糖体的结构和功能', '人体免疫系统在维持稳态中的作用', '皇帝制度',
+            '激素调节', '伴性遗传',
+                '地球运动的地理意义', '地球运动的基本形式', '基因工程的原理及技术', '体液免疫的概念和过程',
+                '基因的分离规律的实质及应用', '蛋白质的合成', '地球的内部圈层结构及特点', '人口增长与人口问题',
+                '劳动就业与守法经营', '器官移植', '垄断组织的出现', '基因工程的概念', '神经调节和体液调节的比较',
+                '组成细胞的化合物', '文艺的春天', '生物工程技术', '基因的自由组合规律的实质及应用', '郡县制', '人体水盐平衡调节',
+                '内质网的结构和功能', '人体的体温调节', '免疫系统的功能', '与细胞分裂有关的细胞器', '太阳对地球的影响',
+                '清末民主革命风潮', '复等位基因', '人工授精、试管婴儿等生殖技术', '“重农抑商”政策', '生态系统的营养结构',
+                '减数分裂的概念', '地球的外部圈层结构及特点', '细胞的多样性和统一性', '工业区位因素', '细胞大小与物质运输的关系',
+                '夏商两代的政治制度', '农业区位因素', '溶酶体的结构和功能', '内环境的稳态', '胚胎移植',
+                '第三产业的兴起和“新经济”的出现', '中心体的结构和功能', '社会主义市场经济的伦理要求', '选官、用官制度的变化',
+                '减数分裂与有丝分裂的比较', '遗传的细胞基础', '地球所处的宇宙环境', '培养基与无菌技术', '高尔基体的结构和功能',
+                '社会主义是中国人民的历史性选择', '人口迁移与人口流动', '走进细胞', '避孕的原理和方法', '血糖平衡的调节',
+                '海峡两岸关系的发展', '生命活动离不开细胞', '兴奋在神经元之间的传递', '拉马克的进化学说', '遗传的分子基础']
 
   def _create_examples(self, lines, set_type):
     """Creates examples for the training and dev sets."""
     examples = []
+    label = []
     for (i, line) in enumerate(lines):
         # Only the test set has a header
         if set_type == "test" and i == 0:
             continue
         guid = "%s-%s" % (set_type, i)
+        line = line[0].split()
         if set_type == "test":
-            text_a = tokenization.convert_to_unicode(line[-1])
+            text_a = tokenization.convert_to_unicode(line[1])
             label = "0"
         else:
             text_a = tokenization.convert_to_unicode(line[-1])
-            label = tokenization.convert_to_unicode(' '.join(line[:-1]))
+            label = tokenization.convert_to_unicode(' '.join(line[0:-1]))
         examples.append(InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
 
@@ -605,7 +531,8 @@ def convert_single_example(ex_index, example, label_list, max_seq_length,
   assert len(input_mask) == max_seq_length
   assert len(segment_ids) == max_seq_length
 
-  label_id = label_map[example.label]
+  label_list = example.label.split(" ")
+  label_id = _predicate_label_to_id(label_list, label_map)
   if ex_index < 5:
     tf.logging.info("*** Example ***")
     tf.logging.info("guid: %s" % (example.guid))
@@ -614,7 +541,7 @@ def convert_single_example(ex_index, example, label_list, max_seq_length,
     tf.logging.info("input_ids: %s" % " ".join([str(x) for x in input_ids]))
     tf.logging.info("input_mask: %s" % " ".join([str(x) for x in input_mask]))
     tf.logging.info("segment_ids: %s" % " ".join([str(x) for x in segment_ids]))
-    tf.logging.info("label: %s (id = %d)" % (example.label, label_id))
+    tf.logging.info("label: %s (id = %s)" % (str(example.label), str(label_id)))
 
   feature = InputFeatures(
       input_ids=input_ids,
@@ -623,6 +550,14 @@ def convert_single_example(ex_index, example, label_list, max_seq_length,
       label_id=label_id,
       is_real_example=True)
   return feature
+
+
+def _predicate_label_to_id(predicate_label, predicate_label_map):
+    predicate_label_map_length = len(predicate_label_map)
+    predicate_label_ids = [0] * predicate_label_map_length
+    for label in predicate_label:
+        predicate_label_ids[predicate_label_map[label]] = 1
+    return predicate_label_ids
 
 
 def file_based_convert_examples_to_features(
@@ -643,10 +578,13 @@ def file_based_convert_examples_to_features(
       return f
 
     features = collections.OrderedDict()
+    # print(feature.segment_ids)
+    # print(feature.label_id)
     features["input_ids"] = create_int_feature(feature.input_ids)
     features["input_mask"] = create_int_feature(feature.input_mask)
     features["segment_ids"] = create_int_feature(feature.segment_ids)
-    features["label_ids"] = create_int_feature([feature.label_id])
+    features["label_ids"] = create_int_feature(feature.label_id)
+    # print(features["label_ids"])
     features["is_real_example"] = create_int_feature(
         [int(feature.is_real_example)])
 
@@ -754,12 +692,16 @@ def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
 
     logits = tf.matmul(output_layer, output_weights, transpose_b=True)
     logits = tf.nn.bias_add(logits, output_bias)
-    probabilities = tf.nn.softmax(logits, axis=-1)
-    log_probs = tf.nn.log_softmax(logits, axis=-1)
+    # probabilities = tf.nn.softmax(logits, axis=-1)
+    probabilities = tf.nn.sigmoid(logits, axis=-1)
+    # log_probs = tf.nn.log_softmax(logits, axis=-1)
 
-    one_hot_labels = tf.one_hot(labels, depth=num_labels, dtype=tf.float32)
-
-    per_example_loss = -tf.reduce_sum(one_hot_labels * log_probs, axis=-1)
+    # one_hot_labels = tf.one_hot(labels, depth=num_labels, dtype=tf.float32)
+    #
+    # per_example_loss = -tf.reduce_sum(one_hot_labels * log_probs, axis=-1)
+    label_ids = tf.cast(labels, tf.float32)
+    per_example_loss = tf.reduce_sum(
+            tf.nn.sigmoid_cross_entropy_with_logits(logits=logits, labels=label_ids), axis=-1)
     loss = tf.reduce_mean(per_example_loss)
 
     return (loss, per_example_loss, logits, probabilities)
@@ -830,10 +772,19 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
           scaffold_fn=scaffold_fn)
     elif mode == tf.estimator.ModeKeys.EVAL:
 
-      def metric_fn(per_example_loss, label_ids, logits, is_real_example):
-        predictions = tf.argmax(logits, axis=-1, output_type=tf.int32)
+      # def metric_fn(per_example_loss, label_ids, logits, is_real_example):
+      def metric_fn(per_example_loss, label_ids, probabilities, is_real_example):
+        # predictions = tf.argmax(logits, axis=-1, output_type=tf.int32)
+        predict_ids = tf.cast(probabilities > 0.5, tf.int32)
+        label_ids = tf.cast(label_ids, tf.int32)
+        elements_equal = tf.cast(tf.equal(predict_ids, label_ids), tf.int32)
+        # change [batch_size, class_numbers] to [1, batch_size]
+        row_predict_ids = tf.reduce_sum(elements_equal, -1)
+        row_label_ids = tf.reduce_sum(tf.ones_like(label_ids), -1)
+        # accuracy = tf.metrics.accuracy(
+        #     labels=label_ids, predictions=predictions, weights=is_real_example)
         accuracy = tf.metrics.accuracy(
-            labels=label_ids, predictions=predictions, weights=is_real_example)
+            labels=row_label_ids, predictions=row_predict_ids)
         loss = tf.metrics.mean(values=per_example_loss, weights=is_real_example)
         return {
             "eval_accuracy": accuracy,
