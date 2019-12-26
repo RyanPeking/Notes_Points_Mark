@@ -458,7 +458,7 @@ def convert_single_example(ex_index, example, label_list, max_seq_length,
         input_ids=[0] * max_seq_length,
         input_mask=[0] * max_seq_length,
         segment_ids=[0] * max_seq_length,
-        label_id=0,
+        label_id=[0] * len(label_list),
         is_real_example=False)
 
   label_map = {}
@@ -584,6 +584,7 @@ def file_based_convert_examples_to_features(
     features["input_mask"] = create_int_feature(feature.input_mask)
     features["segment_ids"] = create_int_feature(feature.segment_ids)
     features["label_ids"] = create_int_feature(feature.label_id)
+    # print(features["segment_ids"])
     # print(features["label_ids"])
     features["is_real_example"] = create_int_feature(
         [int(feature.is_real_example)])
@@ -593,7 +594,7 @@ def file_based_convert_examples_to_features(
   writer.close()
 
 
-def file_based_input_fn_builder(input_file, seq_length, is_training,
+def file_based_input_fn_builder(input_file, seq_length, label_length, is_training,
                                 drop_remainder):
   """Creates an `input_fn` closure to be passed to TPUEstimator."""
 
@@ -601,7 +602,7 @@ def file_based_input_fn_builder(input_file, seq_length, is_training,
       "input_ids": tf.FixedLenFeature([seq_length], tf.int64),
       "input_mask": tf.FixedLenFeature([seq_length], tf.int64),
       "segment_ids": tf.FixedLenFeature([seq_length], tf.int64),
-      "label_ids": tf.FixedLenFeature([], tf.int64),
+      "label_ids": tf.FixedLenFeature([label_length], tf.int64),
       "is_real_example": tf.FixedLenFeature([], tf.int64),
   }
 
@@ -693,7 +694,7 @@ def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
     logits = tf.matmul(output_layer, output_weights, transpose_b=True)
     logits = tf.nn.bias_add(logits, output_bias)
     # probabilities = tf.nn.softmax(logits, axis=-1)
-    probabilities = tf.nn.sigmoid(logits, axis=-1)
+    probabilities = tf.sigmoid(logits)
     # log_probs = tf.nn.log_softmax(logits, axis=-1)
 
     # one_hot_labels = tf.one_hot(labels, depth=num_labels, dtype=tf.float32)
@@ -849,7 +850,7 @@ def input_fn_builder(features, seq_length, is_training, drop_remainder):
                 shape=[num_examples, seq_length],
                 dtype=tf.int32),
         "label_ids":
-            tf.constant(all_label_ids, shape=[num_examples], dtype=tf.int32),
+            tf.constant(all_label_ids, shape=[num_examples, len(all_label_ids[0])], dtype=tf.int32),
     })
 
     if is_training:
@@ -916,6 +917,7 @@ def main(_):
   processor = processors[task_name]()
 
   label_list = processor.get_labels()
+  label_length = len(label_list)
 
   tokenizer = tokenization.FullTokenizer(
       vocab_file=FLAGS.vocab_file, do_lower_case=FLAGS.do_lower_case)
@@ -976,6 +978,7 @@ def main(_):
     train_input_fn = file_based_input_fn_builder(
         input_file=train_file,
         seq_length=FLAGS.max_seq_length,
+        label_length=label_length,
         is_training=True,
         drop_remainder=True)
     estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
