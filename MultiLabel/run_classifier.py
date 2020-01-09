@@ -693,7 +693,7 @@ def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
 
     logits = tf.matmul(output_layer, output_weights, transpose_b=True)
     logits = tf.nn.bias_add(logits, output_bias)
-    # probabilities = tf.nn.softmax(logits, axis=-1)
+    ## probabilities = tf.nn.softmax(logits, axis=-1)
     probabilities = tf.sigmoid(logits)
     # log_probs = tf.nn.log_softmax(logits, axis=-1)
 
